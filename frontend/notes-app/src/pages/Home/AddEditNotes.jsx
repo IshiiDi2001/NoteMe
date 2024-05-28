@@ -9,10 +9,10 @@ const AddEditNotes = ({ noteDate, type, onclose }) => {
 
   const [error, setError] = useState(null);
 
-  // Add Note
+  //   Add Note
   const addNewNote = async () => {};
 
-  // Edit Note
+  //   Edit Note
   const editNote = async () => {};
 
   const handleAddNote = () => {
