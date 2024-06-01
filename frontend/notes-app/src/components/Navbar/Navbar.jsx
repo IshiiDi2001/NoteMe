@@ -21,7 +21,10 @@ const Navbar = ({ userInfo }) => {
 
   return (
     <div className="bg-white flex items-center justify-between px-6 py-2 drop-shadow">
-      <h2 className="text-xl font-medium text-black py-2">NoteMe</h2>
+      <div className="flex items-center gap-2">
+        <img className="h-7" src="public/Favicon.png" alt="Logo" />
+        <h2 className="text-xl font-medium text-black py-2">NoteMe</h2>
+      </div>
 
       <SearchBar
         value={searchQuery}
