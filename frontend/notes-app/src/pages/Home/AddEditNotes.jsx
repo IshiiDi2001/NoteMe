@@ -1,16 +1,38 @@
 import React, { useState } from "react";
 import TagInput from "../../components/Input/TagInput";
 import { MdClose } from "react-icons/md";
+import axiosInstance from "../../utils/axiosInstance";
 
-const AddEditNotes = ({ noteDate, type, onclose }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState([]);
+const AddEditNotes = ({ noteData, type, getAllNotes, onclose }) => {
+  const [title, setTitle] = useState(noteData.title || "");
+  const [content, setContent] = useState(noteData.content || "");
+  const [tags, setTags] = useState(noteData.tags || []);
 
   const [error, setError] = useState(null);
 
   //   Add Note
-  const addNewNote = async () => {};
+  const addNewNote = async () => {
+    try {
+      const response = await axiosInstance.post("/add-note", {
+        title,
+        content,
+        tags,
+      });
+
+      if (response.data && response.data.note) {
+        getAllNotes();
+        onclose();
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setError(error.response.data.message);
+      }
+    }
+  };
 
   //   Edit Note
   const editNote = async () => {};
@@ -77,7 +99,7 @@ const AddEditNotes = ({ noteDate, type, onclose }) => {
         className="btn-primary font-medium mt-5 p-3"
         onClick={handleAddNote}
       >
-        Add
+        {type === "edit" ? "UPDATE" : "ADD"}
       </button>
     </div>
   );
