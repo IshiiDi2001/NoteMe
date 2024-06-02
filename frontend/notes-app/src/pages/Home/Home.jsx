@@ -9,6 +9,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import Toast from "../../components/ToastMessage/Toast";
 import EmptyCard from "../../components/EmptyCard/EmptyCard";
 import noNoteImage from "../../assets/Images/no-data.png";
+import noDataImage from "../../assets/Images/no-data2.png";
 
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModel] = useState({
@@ -25,6 +26,8 @@ const Home = () => {
 
   const [allNotes, setAllNotes] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
+
+  const [isSearch, setIsSearch] = useState(false);
 
   const navigate = useNavigate();
 
@@ -92,6 +95,27 @@ const Home = () => {
     }
   };
 
+  // Search for a Note
+  const onSearchNote = async (query) => {
+    try {
+      const response = await axiosInstance.get("/search-notes", {
+        params: { query },
+      });
+
+      if (response.data && response.data.notes) {
+        setIsSearch(true);
+        setAllNotes(response.data.notes);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setIsSearch(false);
+    getAllNotes();
+  };
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -100,7 +124,11 @@ const Home = () => {
 
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar
+        userInfo={userInfo}
+        onSearchNote={onSearchNote}
+        handleClearSearch={handleClearSearch}
+      />
 
       <div className="container mx-auto">
         {allNotes.length > 0 ? (
@@ -121,8 +149,12 @@ const Home = () => {
           </div>
         ) : (
           <EmptyCard
-            imgSrc={noNoteImage}
-            message={`Start creating your first note! Click the 'Add' button to jot down your thoughts, ideas, and reminders. Let's get started!`}
+            imgSrc={isSearch ? noDataImage : noNoteImage}
+            message={
+              isSearch
+                ? `Oops! No notes found matching your search.`
+                : `Start creating your first note! Click the 'Add' button to jot down your thoughts, ideas, and reminders. Let's get started!`
+            }
           />
         )}
       </div>
