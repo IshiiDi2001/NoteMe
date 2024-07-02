@@ -1,4 +1,7 @@
-# NoteMe - Note Taking App
+<div align="center"> 
+<h1> NoteMe - Note Taking App </h1>
+<img src="frontend/notes-app/src/assets/NoteMe.gif" alt="Demo" width="600">
+</div>
 
 NoteMe is a full-stack note-taking application built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It provides a seamless user experience for managing notes with features like JWT authentication, user management (login and signup), CRUD operations on notes (add, update, delete), pinning notes, and searching notes.
 
